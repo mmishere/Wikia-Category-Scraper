@@ -1,19 +1,20 @@
 from requests import get
 from bs4 import BeautifulSoup
 import os
-import re # regex
+import re
 
-# BASE_URL = input("Paste base URL: ")
-# URL = input("Paste categories URL: ")
+BASE_URL = input("Paste base URL: ")
 
-BASE_URL = "https://octopathtraveler.fandom.com"
-URL = "https://octopathtraveler.fandom.com/wiki/Special:Categories"
+if (BASE_URL[-1] == '/'):
+    BASE_URL = BASE_URL.rstrip(BASE_URL[-1])
+
+print(BASE_URL)
+
+URL = input("Paste categories URL: ")
+
+# example URLs:
+# BASE_URL = "https://octopathtraveler.fandom.com"
 # URL = "https://octopathtraveler.fandom.com/wiki/Special:Categories"
-
-# https://octopathtraveler.fandom.com/wiki/Special:Categories?offset=&limit=500
-# have to use offset lmao
-# users have to put in pages on their own i guess
-
 
 def get_file_text(file_tup):
     to_return = ""
@@ -25,7 +26,6 @@ def get_file_text(file_tup):
     box_str = str(box)
 
     # this has to be done with one pattern only because otherwise titles will show up twice
-    # split the string later
     pattern = "a href=\"\/wiki\/.+?\" title=\".+?\""
     # example output: a href="/wiki/Capable_Culinarian" title="Capable Culinarian"
 
@@ -42,13 +42,13 @@ def get_file_text(file_tup):
     return to_return
 
 # if the file exists already, it won't be affected
-# else, it'll make the file
+# else, it'll make the file and write to it as desired
 def create_files(file_list):
     for file_tup in file_list:
         file_name = file_tup[1] + ".txt"
 
         # if the file doesn't exist, make it, otherwise open it
-        file_open = open(file_name, 'a') # appends to the file, doesn't overwrite
+        file_open = open(file_name, 'a') # appends to the file if it exists, doesn't overwrite
         
         file_text = get_file_text(file_tup)
         file_open.write(file_text)
@@ -78,13 +78,11 @@ def get_categories(box):
     return to_return
 
 
-if __name__ == "__main__":
-    page_html = get(URL).text
-    page = BeautifulSoup(page_html, features="html.parser")
+# if __name__ == "__main__":
+#     page_html = get(URL).text
+#     page = BeautifulSoup(page_html, features="html.parser")
     
-    desired_box = page.find_all('div', class_="mw-spcontent")
-    categories = get_categories(desired_box)
-    create_files(categories)
+#     desired_box = page.find_all('div', class_="mw-spcontent")
+#     categories = get_categories(desired_box)
+#     create_files(categories)
 
-    # now fill in the files: top is the link to the category, then page
-    # names with links attached like "Name: link"
