@@ -4,13 +4,18 @@ import os
 import re
 
 BASE_URL = input("Paste base URL: ")
+URL = input("Paste categories URL: ")
+
 
 if (BASE_URL[-1] == '/'):
     BASE_URL = BASE_URL.rstrip(BASE_URL[-1])
+if BASE_URL.startswith("https://") == False:
+    BASE_URL = "https://" + BASE_URL
+if URL.startswith("https://") == False:
+    URL = "https://" + URL
 
 print(BASE_URL)
-
-URL = input("Paste categories URL: ")
+print(URL)
 
 # example URLs:
 # BASE_URL = "https://octopathtraveler.fandom.com"
@@ -78,11 +83,11 @@ def get_categories(box):
     return to_return
 
 
-# if __name__ == "__main__":
-#     page_html = get(URL).text
-#     page = BeautifulSoup(page_html, features="html.parser")
+if __name__ == "__main__":
+    page_html = get(URL).text
+    page = BeautifulSoup(page_html, features="html.parser")
     
-#     desired_box = page.find_all('div', class_="mw-spcontent")
-#     categories = get_categories(desired_box)
-#     create_files(categories)
+    desired_box = page.find_all('div', class_="mw-spcontent")
+    categories = get_categories(desired_box)
+    create_files(categories)
 
