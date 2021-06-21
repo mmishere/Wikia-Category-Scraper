@@ -11,3 +11,6 @@ Give the program a page of Wikia categories, and it'll create files for each cat
 5. It will ask for your input of a base URL (the site's main URL) and a category URL (similar to `base_url/wiki/Special:Categories`).
 
 If there are multiple category pages, then you'll have to do each of them manually. To speed this up, make sure that the site shows 500 categories per page, as that will give you a different URL (something like `base_url/wiki/Special:Categories?offset=&limit=500`).
+
+## License
+GNU General Public License. Open source, but if you want to use it in something you're making, that also has to be open-source. For more details, see the License text.
