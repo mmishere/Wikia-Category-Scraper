@@ -3,23 +3,23 @@ from bs4 import BeautifulSoup
 import os
 import re
 
-BASE_URL = input("Paste base URL: ")
-URL = input("Paste categories URL: ")
+def get_base_url() -> str:
+    to_return = input("Paste base URL: ")
 
+    if (to_return[-1] == '/'):
+        to_return = to_return.rstrip(to_return[-1])
+    if to_return.startswith("https://") == False:
+        to_return = "https://" + to_return
 
-if (BASE_URL[-1] == '/'):
-    BASE_URL = BASE_URL.rstrip(BASE_URL[-1])
-if BASE_URL.startswith("https://") == False:
-    BASE_URL = "https://" + BASE_URL
-if URL.startswith("https://") == False:
-    URL = "https://" + URL
+    return to_return
 
-print(BASE_URL)
-print(URL)
+def get_categories_url() -> str:
+    to_return = input("Paste categories URL: ")
 
-# example URLs:
-# BASE_URL = "https://octopathtraveler.fandom.com"
-# URL = "https://octopathtraveler.fandom.com/wiki/Special:Categories"
+    if to_return.startswith("https://") == False:
+        to_return = "https://" + to_return
+
+    return to_return
 
 def get_file_text(file_tup):
     to_return = ""
@@ -84,6 +84,13 @@ def get_categories(box):
 
 
 if __name__ == "__main__":
+    BASE_URL = get_base_url()
+    URL = get_categories_url()
+    # example URLs:
+    # BASE_URL = "https://octopathtraveler.fandom.com"
+    # URL = "https://octopathtraveler.fandom.com/wiki/Special:Categories"
+
+
     page_html = get(URL).text
     page = BeautifulSoup(page_html, features="html.parser")
     
